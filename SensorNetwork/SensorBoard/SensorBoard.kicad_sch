@@ -4,6 +4,14 @@
 
   (paper "A5")
 
+  (title_block
+    (title "T RH LUX Sensor Board")
+    (date "04-JAN-2023")
+    (rev "1")
+    (company "125 Systems")
+    (comment 1 "Author: Neeraj Adsul")
+  )
+
   (lib_symbols
     (symbol "Connector_Generic:Conn_01x08" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "J" (id 0) (at 0 10.16 0)
