@@ -2,4 +2,6 @@
 Thumbs.db
 *.exe
 *.dmg
+watcherenv/
+__pycache__/
 
