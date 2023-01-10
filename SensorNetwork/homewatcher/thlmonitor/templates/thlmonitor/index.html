@@ -1,0 +1,27 @@
+{% load static %}
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{{ '/static/style.css'}}">
+<title>125 Systems Home Monitoring System</title>
+<body>
+  <header>
+    <h1>
+      <a href="/"><img class="logo" src="{% static 'thlmonitor/logo.webp' %}"></a>
+    </h1>
+    <nav>
+    </nav>
+  </header>
+  <div class="page">
+    <h2>Time "{{ time }}" </h2>
+    {% block body %}{% endblock %}
+  </div>
+  <footer>
+    <ul class="social">
+    <li><a href="https://github.com/neerajadsul">Github</a> </li>
+    </ul>
+    <br>
+  &copy; Copyright 2023 by 125 Systems.
+  </footer>
+</body>
+</html>
