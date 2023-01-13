@@ -41,6 +41,10 @@ The web app stores data in a SQLite database. The database backup is scheduled f
 "{"secs":1673284915}"
 
 ### Sensor Node
+Programmers model for the sensor board is shown in following figure:
+
+image::figures/SensorBoard-Assembly.svg[SensorBoard with Communication and Power Connections]
+
 * Each sensor node consists of a PicoW as controller and THL sensor board.
 * Each sensor node has a location tag to uniquely identify the location.
 * PicoW sets up time of internal RTC clock
