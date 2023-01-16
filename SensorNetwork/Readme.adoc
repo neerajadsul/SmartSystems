@@ -36,20 +36,7 @@ The web app stores data in a SQLite database. The database backup is scheduled f
 
 Web API specifications are documented in xref:WebAPISpecifications.adoc[Web API Specifications]
 
-* Receive data in JSON format, `<POST>`
 
-[source, json]
-{
-    "location":"livingroom",
-    "time":"2018-12-10T13:45:00.000Z",
-    "T":23.5,"RH":65,"LUX":20
-}
-
-* Send current time as integer seconds since Epoch, `<GET>`
-* `1673284915` secs corresponds to `09-Jan-2023, 17:21:55`
-
-[source, python]
-"{"secs":1673284915}"
 
 ### Sensor Node
 Programmers model for the sensor board is shown in following figure:
