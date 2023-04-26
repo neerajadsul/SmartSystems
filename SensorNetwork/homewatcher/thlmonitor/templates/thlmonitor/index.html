@@ -23,13 +23,17 @@
     <h2>Ground Floor</h2>
     {% block body %}
         {% block ground_floor %}
-            <canvas id="ground_floor" width="300" height="480" style="border: 1px solid #000000">
-            </canvas>
+            <div style="position: relative">
+                <canvas id="ground_floor" width="300" height="480" style="border: 2px solid #000000; z-index: 0;position: absolute; left: 0; top: 0"></canvas>
+                <canvas id="ground_floor_rooms" width="300" height="480" style="border: 2px solid #000000;"></canvas>
+            </div>
         {% endblock %}
         <h2>First Floor</h2>
         {% block first_floor %}
-            <canvas id="first_floor" width="360" height="560" style="border: 1px solid #000000">
-            </canvas>
+            <div style="position: relative">
+            <canvas id="first_floor" width="360" height="560" style="border: 2px solid #000000; z-index: 0;position: absolute; left: 0; top: 0"></canvas>
+            <canvas id="first_floor_rooms" width="360" height="560" style="border: 2px solid #000000; z-index: 1"></canvas>
+            </div>
         {% endblock %}
     {% endblock %}
   </div>
