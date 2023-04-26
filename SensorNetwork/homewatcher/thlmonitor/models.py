@@ -8,31 +8,14 @@ class EnvironmentalData(models.Model):
     lux_ir = models.IntegerField(verbose_name='IR Intensity')
     lux_vis_ir = models.IntegerField(verbose_name='Visible+IR Intensity')
     location = models.ForeignKey('SensorLocation', on_delete=models.PROTECT)
+    timestamp = models.DateTimeField()
+
+    def __str__(self) -> str:
+        return f'''location:{self.location}, Timestamp:{self.timestamp},T:{self.temperature},RH:{self.humidity},IR:{self.lux_ir}, VIS+IR:{self.lux_vis_ir}'''
 
 
 class SensorLocation(models.Model):
-    class Floor(models.IntegerChoices):
-        GROUND = 0
-        FIRST = 1
+    grid_coordinates = models.CharField(max_length=3)
 
-    class GridColumn(models.TextChoices):
-        A = 'A'
-        B = 'B'
-        C = 'C'
-        D = 'D'
-        E = 'E'
-        F = 'F'
-
-    class GridRow(models.IntegerChoices):
-        ONE = 1
-        TWO = 2
-        THREE = 3
-        FOUR = 4
-        FIVE = 5
-        SIX = 6
-        SEVEN = 7
-
-    floor = models.IntegerField(choices=Floor.choices)
-    grid_column = models.CharField(max_length=2, choices=GridColumn.choices)
-    grid_rows = models.IntegerField(choices=GridRow.choices)
-    simple_name = models.CharField(max_length=32)
+    def __str__(self) -> str:
+        return self.grid_coordinates
