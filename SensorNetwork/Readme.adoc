@@ -1,4 +1,5 @@
 # Temperature, Humidity, Ambient Light Monitoring
+ifdef::env-name[:relfilesuffix: .adoc]
 
 The goal of this project is to design a temperature and humidity monitoring system for indoor home usage.
 
@@ -11,11 +12,18 @@ The goal of this project is to design a temperature and humidity monitoring syst
 . Presents T, RH, LUX data as a time-series via a web-interface.
 . The web-interface is accesible atleast within the intra-net.
 
+## System Design
+A block diamgram of the system is shown in the figure below.
+
+image::figures/SystemBlockDiagram.svg[Home Monitoring Systems Block Diagram]
+
 ## Hardware Design
 The sensor board has Sensirion SHTC3 temperature and humidity sensor.
 The board is designed to fit on top or under of the Raspberry Pi Pico W (PicoW).
 
 image::figures/THLSensorBoard.png["Sensorboard for Temperature, Humidity and Ambient Light", 150]
+
+image::figures/SensorBoardPinout.svg[Sensor Board Pinout]
 
 ## Software Design
 
@@ -25,25 +33,15 @@ The sensor node communicates to a Python Flask based web-app which can receive d
 The web app stores data in a SQLite database. The database backup is scheduled for everyday on a internal network attached storage.
 
 #### Web API Specifications
-* Receive data in JSON format, `<POST>`
 
-[source, json]
-{
-    "location":"livingroom",
-    "time":"2018-12-10T13:45:00.000Z",
-    "T":23.5,"RH":65,"LUX":20
-}
+Web API specifications are documented in xref:WebAPISpecifications.adoc[Web API Specifications]
 
-* Send current time as integer seconds since Epoch, `<GET>`
-* `1673284915` secs corresponds to `09-Jan-2023, 17:21:55`
 
-[source, python]
-"{"secs":1673284915}"
 
 ### Sensor Node
 Programmers model for the sensor board is shown in following figure:
 
-image::figures/SensorBoard-Assembly.svg[SensorBoard with Communication and Power Connections]
+image::figures/FirmwareProgrammersModel.svg[SensorBoard connections to Pico W]
 
 * Each sensor node consists of a PicoW as controller and THL sensor board.
 * Each sensor node has a location tag to uniquely identify the location.
