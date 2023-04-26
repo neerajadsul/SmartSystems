@@ -2,8 +2,14 @@
 <!doctype html>
 <html>
 <meta charset="utf-8">
-<link rel="stylesheet" href="{% static 'thlmonitor/style.css' %}">
+<head>
+    <link rel="stylesheet" href="{% static 'thlmonitor/style.css' %}">
+    <script src="{% static 'thlmonitor/map_thldata.js' %}"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'thlmonitor/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'thlmonitor/favicon-32x32.png'%}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'thlmonitor/favicon-16x16.png'%}">
 <title>125 Systems Home Monitoring System</title>
+</head>
 <body>
   <header>
     <h1>
@@ -13,8 +19,19 @@
     </nav>
   </header>
   <div class="page">
-    <h2>Time "{{ time }}" </h2>
-    {% block body %}{% endblock %}
+    <h2>Current Time "{{ time }}" </h2>
+    <h2>Ground Floor</h2>
+    {% block body %}
+        {% block ground_floor %}
+            <canvas id="ground_floor" width="300" height="480" style="border: 1px solid #000000">
+            </canvas>
+        {% endblock %}
+        <h2>First Floor</h2>
+        {% block first_floor %}
+            <canvas id="first_floor" width="360" height="560" style="border: 1px solid #000000">
+            </canvas>
+        {% endblock %}
+    {% endblock %}
   </div>
   <footer>
     <ul class="social">
