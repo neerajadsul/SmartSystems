@@ -4,5 +4,5 @@ Thumbs.db
 *.dmg
 watcherenv/
 __pycache__/
-*.drawio.bkp
-
+*drawio.bkp
+*drawio.dtmp
