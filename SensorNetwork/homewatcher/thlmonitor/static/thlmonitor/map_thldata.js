@@ -6,6 +6,31 @@ window.onload = function() {
     // display_measurements("ground", 3, "D", 21.2, 43, 304);
     // show_grid_coordinates("ground");
     // show_grid_coordinates("first");
+
+    const ground_floor = document.getElementById("ground_floor");
+
+    ground_floor.addEventListener(
+        "click", function ( ev) {
+            let rect = ground_floor.getBoundingClientRect();
+            let x = ev.clientX - rect.left
+            let y = ev.clientY - rect.top;
+            console.log(x, y);
+        }
+
+    );
+
+    const first_floor = document.getElementById("first_floor");
+
+    first_floor.addEventListener(
+        "click", function ( ev) {
+            let rect = first_floor.getBoundingClientRect();
+            let x = ev.clientX - rect.left
+            let y = ev.clientY - rect.top;
+            console.log(x, y);
+        }
+
+    );
+
 }
 
 const Xd = 60;
@@ -179,3 +204,5 @@ function show_grid_coordinates(floor) {
         }
     }
 }
+
+
