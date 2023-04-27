@@ -3,6 +3,9 @@ window.onload = function() {
     draw_first_floor();
     draw_ground_floor_rooms();
     draw_first_floor_rooms();
+    // display_measurements("ground", 3, "D", 21.2, 43, 304);
+    // show_grid_coordinates("ground");
+    // show_grid_coordinates("first");
 }
 
 const Xd = 60;
@@ -112,4 +115,67 @@ function draw_first_floor_rooms() {
     gctx.moveTo(0, 4*Yd);
     gctx.lineTo(2*Xd, 4*Yd);
     gctx.stroke();
+}
+
+const col_dict = {
+    "A": 1, "B": 2, "C": 3, "D": 4, "E": 5, "F": 6, "G": 7
+};
+
+const findKey = (obj, val) => {
+   const res = {};
+   Object.keys(obj).map(key => {
+      res[obj[key]] = key;
+   });
+   // if the value is not present in the object
+   // return false
+   return res[val] || false;
+};
+
+function display_measurements(floor, row, col, T, RH , LUX) {
+    if (floor==="ground") {
+        floor = "ground_floor_rooms";
+    } else if(floor==="first") {
+        floor = "first_floor_rooms";
+    }
+    const ground = document.getElementById(floor);
+    const gctx = ground.getContext("2d");
+    const W = ground.width;
+    const H = ground.height;
+
+    gctx.font = "16px Arial";
+    console.log(T.toString());
+    // gctx.strokeText(T.toString(), row*Xd, col_dict[col]*Yd);
+    gctx.strokeText("T:"+ T.toString(), col_dict[col]*Xd-Xd/2-20, row*Yd-Yd/2);
+    gctx.strokeText("H:" + RH.toString(), col_dict[col]*Xd-Xd/2-20, row*Yd-Yd/2+16);
+    gctx.strokeText("L:" + LUX.toString(), col_dict[col]*Xd-Xd/2-20, row*Yd-Yd/2+32);
+    console.log(row, col_dict[col]);
+
+}
+
+function show_grid_coordinates(floor) {
+    let MAX_COL = "E";
+    let MAX_ROW = 6;
+    if (floor==="ground") {
+        floor = "ground_floor_rooms";
+        MAX_COL = "E";
+        MAX_ROW = 6;
+    } else if(floor==="first") {
+        floor = "first_floor_rooms";
+        MAX_COL = "F";
+        MAX_ROW = 7;
+    }
+    const ground = document.getElementById(floor);
+    const gctx = ground.getContext("2d");
+    const W = ground.width;
+    const H = ground.height;
+
+    gctx.font = "16px Arial";
+
+    for (let i = 1; i <= MAX_ROW; i++) {
+        for (let j = 1; j <= col_dict[MAX_COL]; j++) {
+            var msg = i.toString() + findKey(col_dict, j);
+            console.log(msg);
+            gctx.strokeText(msg, j*Xd-Xd/2, i*Yd-Yd/2);
+        }
+    }
 }
