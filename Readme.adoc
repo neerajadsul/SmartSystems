@@ -21,9 +21,11 @@ image::SensorNetwork/figures/SystemBlockDiagram.svg[Home Monitoring Systems Bloc
 The sensor board has Sensirion SHTC3 temperature and humidity sensor.
 The board is designed to fit on top or under of the Raspberry Pi Pico W (PicoW).
 
-image::SensorNetwork/figures/THLSensorBoard.png["Sensorboard for Temperature, Humidity and Ambient Light", 150]
+[cols="1,1"]
+|===
+|===
 
-image::SensorNetwork/figures/SensorBoardPinout.svg[Sensor Board Pinout]
+image::SensorNetwork/figures/board_views.svg["Sensorboard for Temperature, Humidity and Ambient Light"]
 
 ## Software Design
 
