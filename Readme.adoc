@@ -15,15 +15,15 @@ The goal of this project is to design a temperature and humidity monitoring syst
 ## System Design
 A block diamgram of the system is shown in the figure below.
 
-image::figures/SystemBlockDiagram.svg[Home Monitoring Systems Block Diagram]
+image::SensorNetwork/figures/SystemBlockDiagram.svg[Home Monitoring Systems Block Diagram]
 
 ## Hardware Design
 The sensor board has Sensirion SHTC3 temperature and humidity sensor.
 The board is designed to fit on top or under of the Raspberry Pi Pico W (PicoW).
 
-image::figures/THLSensorBoard.png["Sensorboard for Temperature, Humidity and Ambient Light", 150]
+image::SensorNetwork/figures/THLSensorBoard.png["Sensorboard for Temperature, Humidity and Ambient Light", 150]
 
-image::figures/SensorBoardPinout.svg[Sensor Board Pinout]
+image::SensorNetwork/figures/SensorBoardPinout.svg[Sensor Board Pinout]
 
 ## Software Design
 
@@ -34,14 +34,14 @@ The web app stores data in a SQLite database. The database backup is scheduled f
 
 #### Web API Specifications
 
-Web API specifications are documented in xref:WebAPISpecifications.adoc[Web API Specifications]
+Web API specifications are documented in xref:SensorNetwork/WebAPISpecifications.adoc[Web API Specifications]
 
 
 
 ### Sensor Node
 Programmers model for the sensor board is shown in following figure:
 
-image::figures/FirmwareProgrammersModel.svg[SensorBoard connections to Pico W]
+image::SensorNetwork/figures/FirmwareProgrammersModel.svg[SensorBoard connections to Pico W]
 
 * Each sensor node consists of a PicoW as controller and THL sensor board.
 * Each sensor node has a location tag to uniquely identify the location.
