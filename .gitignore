@@ -6,3 +6,8 @@ watcherenv/
 __pycache__/
 *drawio.bkp
 *drawio.dtmp
+# vscode folder
+.vscode
+# PyCharm folder
+.idea 
+
