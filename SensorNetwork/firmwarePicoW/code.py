@@ -1,67 +1,117 @@
-import network
 import time
-import urequests
+import board
+from adafruit_shtc3 import SHTC3
+from adafruit_ltr329_ltr303 import LTR303
+import busio
+import bitbangio
+from digitalio import Pull, DigitalInOut
+import wifi
+import os
+import socketpool
+import adafruit_requests
+import rtc
 
-SERVER_IP = "192.168.1.63"
-
-def read_wifi_config(filename):
-    '''Reads wifi config file'''
-    with open(filename, 'rt') as f:
-        s = f.readlines()
-    return s[0].strip(), s[1].strip()
-
+real_time_clock = rtc.RTC()
 
 class THLData():
-    def __init__(self, location, time, T, RH, LUX):
+    def __init__(self, location, timesecs, T, RH, LUX):
         self.location = location
-        self.time = time
+        self.timesecs = timesecs
         self.T = T
         self.RH = RH
         self.LUX = LUX
-                    
+
     def __str__(self):
-        return "{" + f'''"location":'{self.location}',"timestamp":{self.time},"T":{self.T},"RH":{self.RH},"LUX":{self.LUX}''' + "}"
-    
-    
-def wifi_connect(config_file):    
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    username, password = read_wifi_config(config_file)
-    wlan.connect(username, password)
-    
-    while not wlan.isconnected() and wlan.status() >= 0:
-        print("waiting to connect:")
-        time.sleep(1)
-    print(wlan.ifconfig())
+        return "{" + f'''"location":'{self.location}',"timesecs":{self.timesecs},"T":{self.T},"RH":{self.RH},"LUX":{self.LUX}''' + "}"
 
+def get_als_reading(ltr303):
+    while True:
+        ltr303.throw_out_reading()
+        if ltr303.new_als_data_available:
+            ltr303.throw_out_reading()
+            if ltr303.als_data_invalid:
+                ltr303.throw_out_reading()
+                continue
+        for i in range(2):
+            lux_visible = ltr303.visible_plus_ir_light
+            lux_ir = ltr303.ir_light
+        # print("VisibleIR: %.1f, IR: %.1f" % (lux_visible, lux_ir))
+        break
+    return (lux_visible, lux_ir)
 
-def run():
-    wifi_connect('wifi.txt')
+def get_sht_reading(sht):
+    T, RH = sht.measurements
+    return T, RH
+
+def send_data(sht, ltr303, requests, homewatcher_server):
+    T, RH = get_sht_reading(sht)
+    print("T: %0.1fC, H: %0.1f %%" % (T, RH))
+
+    als_data = get_als_reading(ltr303)
+    print("LTR: ", als_data)
 
     thl_data = THLData(
-            "livingroom",
-            time.localtime(),
-            23.5,
-            50.5,
-            34
+            os.getenv("LOCATION"),
+            time.time(),
+            T,
+            RH,
+            als_data
+        )
+    print(str(thl_data))
+    try:
+        response = requests.post(homewatcher_server, data=str(thl_data))
+        print(response.text)
+    except:
+        pass
+
+def main():
+    # URL endpoint in settings.toml file
+    homewatcher_server = os.getenv("URL_ENDPOINT_SENSOR_DATA")
+
+
+    print("Connecting to Wi-Fi")
+    status = wifi.radio.connect(
+        os.getenv("CIRCUITPY_WIFI_SSID"),
+        os.getenv("CIRCUITPY_WIFI_PASSWORD")
         )
 
+    pool = socketpool.SocketPool(wifi.radio)
+    print("IP Address:", wifi.radio.ipv4_address)
 
+    requests = adafruit_requests.Session(pool)
+
+    i2c = busio.I2C(
+            board.GP5, board.GP4
+        )
+
+    # SHTC3 Temperature Humidity Sensor
+    sht = SHTC3(i2c)
+
+    # LTR-303ALS-01 Sensor
+    ltr303 = LTR303(i2c)
+    ltr303.als_gain = 96
+    ltr303.integration_time = 100
+    ltr303.measurement_rate = 200
+    als_data = get_als_reading(ltr303)
+    time.sleep(0.2)
+
+    # GET request obtains timesecs, current time as integer
     try:
-        r = urequests.request("GET","http://192.168.1.63:8080/tasks/rp2040/")
-        pr = urequests.request("POST","http://192.168.1.63:8080/tasks/rp2040/", data=str(thl_data))
-    except OSError:
-        print("Failed to Connect to the Server.")
+        response = requests.get(homewatcher_server)
+        time.sleep(5)
+        print(response.text)
+        tt = int(response.text)
+    except:
+        print("GET request failed")
     else:
-        print(r.status_code)
-        if r.status_code == 200:
-            print(r.content)
-            r.close()
-            
-        if pr.status_code == 200:
-            print(pr.content)
-            pr.close()
+        real_time_clock.datetime = time.localtime(tt)
+    packet_count = 0
+    while True:
+        send_data(sht, ltr303, requests, homewatcher_server)
+        # packet_count += 1
+        #if packet_count > 5:
+        #    break
+        time.sleep(10)
 
 if __name__ == "__main__":
-    print("main")
-    run()
+    main()
