@@ -21,17 +21,13 @@ image::SensorNetwork/figures/SystemBlockDiagram.svg[Home Monitoring Systems Bloc
 The sensor board has Sensirion SHTC3 temperature and humidity sensor.
 The board is designed to fit on top or under of the Raspberry Pi Pico W (PicoW).
 
-[cols="1,1"]
-|===
-|===
-
 image::SensorNetwork/figures/board_views.svg["Sensorboard for Temperature, Humidity and Ambient Light"]
 
 ## Software Design
 
 ### Monitoring Server
 The monitoring server is deployed on a Raspberry Pi 400.
-The sensor node communicates to a Python Flask based web-app which can receive data on port 6161.
+The sensor node communicates to a Python Django based web-app which can receive data on port 8080.
 The web app stores data in a SQLite database. The database backup is scheduled for everyday on a internal network attached storage.
 
 #### Web API Specifications

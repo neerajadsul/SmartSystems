@@ -3,6 +3,7 @@
 ## Sensor Node
 ### Send Monitoring Data Point
 * Sensor Node sends the data with a `<POST>` request.
+* Endpoint: `/thlmonitor/sensor_data`
 * Send data in as Python dictionary. Individual fields are listed below:
 ** `location` sent as a tuple of grid co-ordinates as per the sensor grid specifications
 ** `timestamp` sent as a of tuple of `time.localtime()`
@@ -24,12 +25,13 @@ OR
 {"location":'FA6',"timestamp":(2023, 1, 15, 16, 47, 39, 6, 15),"T":23.5,"RH":50.5,"LUX":34.2}
 
 ### Get Current Time from Server
-* Sensor requests `time` with a `<GET>` request at endpoint `/currentime`
-** Data received as tuple of time.localtime()
+* Sensor requests current time with a `<GET>` request.
+* Endpoint: `/thlmonitor/sensor_data`
+** Data sent as number of seconds from epoch. 
 
 ### Sensor Grid Specifications
 
 image:figures/SensorGridSpecification.svg[]
 
 ## User Front End for Home Monitoring
-
+[TBD]
