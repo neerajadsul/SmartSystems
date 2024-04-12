@@ -12,6 +12,11 @@ from .models import EnvironmentalData, SensorLocation
 def index(request):
     context = {
         'time':datetime.now(),
+        'thldata': [
+            {'loc': 'ground','row': 3, 'col':'D', 'T':23.3, 'RH': 56, 'lux': 305},
+            {'loc': 'ground','row': 4, 'col':'D', 'T':23.3, 'RH': 56, 'lux': 305}
+        ],
+
     }
     return render(request, 'thlmonitor/index.html' ,context)
 

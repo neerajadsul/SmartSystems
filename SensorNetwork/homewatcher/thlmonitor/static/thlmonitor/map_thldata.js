@@ -3,7 +3,12 @@ window.onload = function() {
     draw_first_floor();
     draw_ground_floor_rooms();
     draw_first_floor_rooms();
-    // display_measurements("ground", 3, "D", 21.2, 43, 304);
+
+    const thl =JSON.parse(document.getElementById("thl-data").textContent);
+    console.log(thl);
+    thl.forEach(elm => {
+        display_measurements(elm.loc, elm.row, elm.col, elm.T, elm.RH, elm.lux);
+    });
     // show_grid_coordinates("ground");
     // show_grid_coordinates("first");
 

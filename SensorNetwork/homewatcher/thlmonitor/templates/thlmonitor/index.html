@@ -5,6 +5,7 @@
 <head>
     <link rel="stylesheet" href="{% static 'thlmonitor/style.css' %}">
     <script src="{% static 'thlmonitor/map_thldata.js' %}"></script>
+    {{ thldata|json_script:"thl-data"}}
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'thlmonitor/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'thlmonitor/favicon-32x32.png'%}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'thlmonitor/favicon-16x16.png'%}">
