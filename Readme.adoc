@@ -33,7 +33,43 @@ The web app stores data in a SQLite database. The database backup is scheduled f
 #### Web API Specifications
 
 Web API specifications are documented in xref:SensorNetwork/WebAPISpecifications.adoc[Web API Specifications]
+# Web API Specifications
 
+## Sensor Node
+### Send Monitoring Data Point
+* Sensor Node sends the data with a `<POST>` request.
+* Endpoint: `/thlmonitor/sensor_data`
+* Send data in as Python dictionary. Individual fields are listed below:
+** `location` sent as a tuple of grid co-ordinates as per the sensor grid specifications
+** `timestamp` sent as a of tuple of `time.localtime()`
+** Temperature `T` sent as a number with one decimal precision.
+** Relative Humidity `RH` sent as a an integer number between [0, 100].
+** Ambient Light intensity `LUX` sent as a number with one decimal precision.
+
+For example:
+Ground floor, living room
+[source, json] 
+{"location":'0E4',"timestamp":(2023, 1, 15, 16, 47, 39, 6, 15),"T":23.5,"RH":50.5,"LUX":34.2}
+OR
+{"location":'GE4',"timestamp":(2023, 1, 15, 16, 47, 39, 6, 15),"T":23.5,"RH":50.5,"LUX":34.2}
+
+First floor, N Office room
+[source, json]
+{"location":'1A6',"timestamp":(2023, 1, 15, 16, 47, 39, 6, 15),"T":23.5,"RH":50.5,"LUX":34.2}
+OR
+{"location":'FA6',"timestamp":(2023, 1, 15, 16, 47, 39, 6, 15),"T":23.5,"RH":50.5,"LUX":34.2}
+
+### Get Current Time from Server
+* Sensor requests current time with a `<GET>` request.
+* Endpoint: `/thlmonitor/sensor_data`
+** Data sent as number of seconds from epoch. 
+
+### Sensor Grid Specifications
+
+image:figures/SensorGridSpecification.svg[]
+
+## User Front End for Home Monitoring
+[TBD]
 
 
 ### Sensor Node
