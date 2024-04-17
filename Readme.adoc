@@ -64,9 +64,9 @@ OR
 * Endpoint: `/thlmonitor/sensor_data`
 ** Data sent as number of seconds from epoch. 
 
-### Sensor Grid Specifications
+### Example Sensor Grid Specifications
 
-image:figures/SensorGridSpecification.svg[]
+image::SensorNetwork/figures/SensorGridSpecification.svg[Sensor Grid for a Typical House]
 
 ## User Front End for Home Monitoring
 [TBD]
